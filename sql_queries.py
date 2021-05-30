@@ -63,24 +63,7 @@ staging_songs_table_create = ("""
 
 #Analytics table
 
-songplay_table_create = ("""
-    CREATE TABLE songplay(
-        songplay_id     BIGINT IDENTITY (0,1) NOT NULL,
-        start_time      TIMESTAMP NOT NULL,
-        user_id         INT NOT NULL SORTKEY DISTKEY,
-        level           VARCHAR,
-        song_id         VARCHAR NOT NULL,
-        artist_id       VARCHAR NOT NULL,
-        sessionId       INT,
-        location        VARCHAR,
-        userAgent       VARCHAR,
-        primary key (songplay_id),
-        foreign key (user_id) references users(user_id),
-        foreign key (artist_id) references artists(artist_id),
-        foreign key (start_time) references time(start_time),
-        foreign key (song_id) references songs(song_id)
-    );
-""")
+
 
 user_table_create = ("""
     CREATE TABLE users(
@@ -106,7 +89,7 @@ song_table_create = ("""
 
 artist_table_create = ("""
     CREATE TABLE artists(
-        artist_id    VARCHAR NOT NULL PRIMARY KEY, 
+        artist_id    VARCHAR NOT NULL, 
         name         VARCHAR, 
         location     VARCHAR, 
         latitude     VARCHAR, 
@@ -117,7 +100,7 @@ artist_table_create = ("""
 
 time_table_create = ("""
     CREATE TABLE time(
-        start_time  TIMESTAMP NOT NULL PRIMARY KEY, 
+        start_time  TIMESTAMP NOT NULL, 
         hour        INT, 
         day         INT, 
         week        INT, 
@@ -126,6 +109,25 @@ time_table_create = ("""
         weekday     INT,
         primary key (start_time)  
     )diststyle all;
+""")
+
+songplay_table_create = ("""
+    CREATE TABLE songplay(
+        songplay_id     BIGINT IDENTITY (0,1) NOT NULL,
+        start_time      TIMESTAMP NOT NULL,
+        user_id         INT NOT NULL SORTKEY DISTKEY,
+        level           VARCHAR,
+        song_id         VARCHAR NOT NULL,
+        artist_id       VARCHAR NOT NULL,
+        sessionId       INT,
+        location        VARCHAR,
+        userAgent       VARCHAR,
+        primary key (songplay_id),
+        foreign key (user_id) references users(user_id),
+        foreign key (artist_id) references artists(artist_id),
+        foreign key (start_time) references time(start_time),
+        foreign key (song_id) references songs(song_id)
+    );
 """)
 
 # STAGING TABLES
@@ -238,7 +240,7 @@ time_table_insert = ("""
 
 # QUERY LISTS
 
-create_table_queries = [staging_events_table_create, staging_songs_table_create, songplay_table_create, user_table_create, song_table_create, artist_table_create, time_table_create]
+create_table_queries = [staging_events_table_create, staging_songs_table_create,  user_table_create, song_table_create, artist_table_create, time_table_create, songplay_table_create]
 
 drop_table_queries = [staging_events_table_drop, staging_songs_table_drop, songplay_table_drop, user_table_drop, song_table_drop, artist_table_drop, time_table_drop]
 
